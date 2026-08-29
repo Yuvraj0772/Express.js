@@ -31,30 +31,51 @@
 // Use ES import & export
 
 //import express from 'express'; // ES module import syntax
-import Home from './pages/home.js';
-import About from './pages/about.js';
-import Contact from './pages/contact.js';
 
-const express = require('express'); // CommonJS import syntax vanile 
+
+// render html elemments and forms 
+
+// const express = require('express');
+
+// const app = express();
+
+// app.get("/",(req,resp) =>{
+//   resp.send("<h1>Home Page</h1> <br/> <a href='/login'>GO TO LOGIN</a>");
+// })
+
+// app.get("/login", (req, res) => {
+//     res.send(`
+//         <form action="/submit" method="post">
+//             <input type="text" name="username" placeholder="Enter your username" />
+//             <br />
+//             <br/>
+//             <input type="password" name="password" placeholder="Enter your password" />
+//             <br />
+//             <br/>
+//             <button type="submit">Login</button>
+//         </form>    `);
+// });
+
+// app.post("/submit", (req, res) => {
+//     // Handle form submission logic here
+//     res.send("<h1>Form submitted successfully!</h1>");
+// });
+
+// app.listen(3200);
+
+const express = require('express');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send(Home);
-});
-
-app.get('/about', (req, res) => {
-  res.send(About);
-});
-
-app.get('/contact', (req, res) => {
-  res.send(Contact);
-});
+const path = require('path');
 
 app.listen(3200);
 
 
 
-
-
-
+app.get("/", (req, res) => {
+    // dir name is not available in ES module, so we have to use path module to get the absolute path of the file
+    const absPath = path.resolve("view/home.html");
+    res.send("<h1>Home Page</h1> <br/> <a href='/login'>GO TO LOGIN</a>");
+    res.sendFile(absPath);
+});
