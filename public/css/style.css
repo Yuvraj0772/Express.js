@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
         h1 {
-            font-size: 120px;
+            font-size: 60px;
             color: hsl(244, 46%, 12%);
             margin-bottom: 10px;
+            text-align: center;
         }
         a {
             display: inline-block;
+            text-align: center;
             padding: 12px 25px;
             background-color: hsl(248, 24%, 48%);
             color: white;
@@ -23,10 +17,3 @@
         a:hover {
             background-color: #555;
         }
-    </style>
-</head>
-<body>
-    <h1>Login Page</h1>
-    <a href="/home">Go Back Home</a>
-</body>
-</html>

@@ -69,6 +69,10 @@ const app = express();
 
 const path = require('path');
 
+const publicPath = path.resolve("public");
+
+app.use(express.static(publicPath));
+
 app.listen(3200);
 
 
@@ -78,4 +82,25 @@ app.get("/", (req, res) => {
     const absPath = path.resolve("view/home.html");
     res.send("<h1>Home Page</h1> <br/> <a href='/login'>GO TO LOGIN</a>");
     res.sendFile(absPath);
+});
+
+app.get("/home", (req, res) => {
+    const absPath = path.resolve("view/home.html");
+    res.sendFile(absPath);
+});
+
+app.get("/login", (req, res) => {
+    const absPath = path.resolve("view/login.html");
+    res.sendFile(absPath);
+});
+
+app.get("/about", (req, res) => {
+    const absPath = path.resolve("view/about.html");
+    res.sendFile(absPath);
+});
+
+//  to display 404 page  
+
+app.use((req, res) => {
+    res.status(404).sendFile(path.resolve("view/404.html"));
 });
