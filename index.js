@@ -63,44 +63,97 @@
 
 // app.listen(3200);
 
+// const express = require('express');
+
+// const app = express();
+
+// const path = require('path');
+
+// const publicPath = path.resolve("public");
+
+// app.use(express.static(publicPath));
+
+// app.listen(3200);
+
+// to use css 
+
+// app.get("/", (req, res) => {
+//     // dir name is not available in ES module, so we have to use path module to get the absolute path of the file
+//     const absPath = path.resolve("view/home.html");
+//     res.send("<h1>Home Page</h1> <br/> <a href='/login'>GO TO LOGIN</a>");
+//     res.sendFile(absPath);
+// });
+
+// app.get("/home", (req, res) => {
+//     const absPath = path.resolve("view/home.html");
+//     res.sendFile(absPath);
+// });
+
+// app.get("/login", (req, res) => {
+//     const absPath = path.resolve("view/login.html");
+//     res.sendFile(absPath);
+// });
+
+// app.get("/about", (req, res) => {
+//     const absPath = path.resolve("view/about.html");
+//     res.sendFile(absPath);
+// });
+
+// //  to display 404 page  
+
+// app.use((req, res) => {
+//     res.status(404).sendFile(path.resolve("view/404.html"));
+// });
+
+
+// Middleware in Express 
+// it is a function which runs before the final route handler
+
 const express = require('express');
 
 const app = express();
 
-const path = require('path');
+app.get('/',(req,resp) =>{
+    resp.send("<h1> Home Page </h1>");
+})
 
-const publicPath = path.resolve("public");
+// app.get('/users',(req,resp) =>{
+//     resp.send("Users Page");
+// })
 
-app.use(express.static(publicPath));
+// app.get('/products',(req,resp) =>{
+//     resp.send("Products Page");
+// })
 
 app.listen(3200);
 
+// middleware 
+function checkRoute(req,resp,next){
+    console.log(req.url);
+    next();
+}
+
+app.use(checkRoute)
+
+app.get('/login',(req,resp) =>{
+    resp.send("<h1>Login Page </h1>");
+})
+
+app.get('/about',(req,resp) =>{
+    resp.send("<h1> About Page </h1>");
+})
+
+function ageCheck(req,resp,next){
+    if( ! req.query.age || age <18){
+        resp.send("<h1> You can not acess this page </h1>")
+    }
+    else{
+        next();
+    }
+}
+
+app.use(ageCheck)
 
 
-app.get("/", (req, res) => {
-    // dir name is not available in ES module, so we have to use path module to get the absolute path of the file
-    const absPath = path.resolve("view/home.html");
-    res.send("<h1>Home Page</h1> <br/> <a href='/login'>GO TO LOGIN</a>");
-    res.sendFile(absPath);
-});
 
-app.get("/home", (req, res) => {
-    const absPath = path.resolve("view/home.html");
-    res.sendFile(absPath);
-});
 
-app.get("/login", (req, res) => {
-    const absPath = path.resolve("view/login.html");
-    res.sendFile(absPath);
-});
-
-app.get("/about", (req, res) => {
-    const absPath = path.resolve("view/about.html");
-    res.sendFile(absPath);
-});
-
-//  to display 404 page  
-
-app.use((req, res) => {
-    res.status(404).sendFile(path.resolve("view/404.html"));
-});
