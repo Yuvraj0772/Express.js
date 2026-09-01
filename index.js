@@ -109,7 +109,7 @@
 // Middleware in Express 
 // it is a function which runs before the final route handler
 
-const express = require('express');
+import express from 'express';
 
 const app = express();
 
