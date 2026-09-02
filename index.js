@@ -109,51 +109,99 @@
 // Middleware in Express 
 // it is a function which runs before the final route handler
 
+// import express from 'express';
+
+// const app = express();
+
+// app.get('/',(req,resp) =>{
+//     resp.send("<h1> Home Page </h1>");
+// })
+
+// // app.get('/users',(req,resp) =>{
+// //     resp.send("Users Page");
+// // })
+
+// // app.get('/products',(req,resp) =>{
+// //     resp.send("Products Page");
+// // })
+
+// app.listen(3200);
+
+// // middleware 
+// function checkRoute(req,resp,next){
+//     console.log(req.url);
+//     next();
+// }
+
+// app.use(checkRoute)
+
+// app.get('/login',(req,resp) =>{
+//     resp.send("<h1>Login Page </h1>");
+// })
+
+// app.get('/about',(req,resp) =>{
+//     resp.send("<h1> About Page </h1>");
+// })
+
+// function ageCheck(req,resp,next){
+//     if( ! req.query.age || age <18){
+//         resp.send("<h1> You can not acess this page </h1>")
+//     }
+//     else{
+//         next();
+//     }
+// }
+
+// app.use(ageCheck)
+
+// //function ip check if you want to block speccific ip 
+// function ipCheck(req,resp,next){
+//     const ip = req.socket.remoteAddress;
+//     if(ip.includes("::1")){
+//         resp.send("<h1> You can not acess this page </h1>")
+//     }else{
+//         next();
+//     }
+// }
+
+// app.use(ipCheck)
+
+// Route specific middleware
+
 import express from 'express';
 
 const app = express();
 
-app.get('/',(req,resp) =>{
-    resp.send("<h1> Home Page </h1>");
-})
+app.get('/', (req, resp) => {
+    resp.send("<h1>Home Page</h1>");
+});
 
-// app.get('/users',(req,resp) =>{
-//     resp.send("Users Page");
-// })
+app.get('/login', checkageRoutemiddleware, checkUrl, (req, resp) => {
+    resp.send("<h1>Login Page</h1>");
+});
 
-// app.get('/products',(req,resp) =>{
-//     resp.send("Products Page");
-// })
+app.get('/users', checkageRoutemiddleware, (req, resp) => {
+    resp.send("Users Page");
+});
 
-app.listen(3200);
+app.get('/products', (req, resp) => {
+    resp.send("Products Page");
+});
 
-// middleware 
-function checkRoute(req,resp,next){
-    console.log(req.url);
-    next();
-}
-
-app.use(checkRoute)
-
-app.get('/login',(req,resp) =>{
-    resp.send("<h1>Login Page </h1>");
-})
-
-app.get('/about',(req,resp) =>{
-    resp.send("<h1> About Page </h1>");
-})
-
-function ageCheck(req,resp,next){
-    if( ! req.query.age || age <18){
-        resp.send("<h1> You can not acess this page </h1>")
-    }
-    else{
+function checkageRoutemiddleware(req, resp, next) {
+    if (!req.query.age || req.query.age < 18) {
+        resp.send("<h1>You cannot access this page</h1>");
+    } else {
         next();
     }
 }
 
-app.use(ageCheck)
+function checkUrl(req, resp, next) {
+    console.log(req.url);
+    next();
+}
 
+app.use(checkageRoutemiddleware);
+app.use(checkUrl);
 
-
-
+app.listen(3200);
