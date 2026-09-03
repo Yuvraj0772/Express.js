@@ -168,40 +168,112 @@
 
 // Route specific middleware
 
-import express from 'express';
+// import express from 'express';
 
-const app = express();
+// const app = express();
 
-app.get('/', (req, resp) => {
-    resp.send("<h1>Home Page</h1>");
-});
+// app.get('/', (req, resp) => {
+//     resp.send("<h1>Home Page</h1>");
+// });
 
-app.get('/login', checkageRoutemiddleware, checkUrl, (req, resp) => {
-    resp.send("<h1>Login Page</h1>");
-});
+// app.get('/login', checkageRoutemiddleware, checkUrl, (req, resp) => {
+//     resp.send("<h1>Login Page</h1>");
+// });
 
-app.get('/users', checkageRoutemiddleware, (req, resp) => {
-    resp.send("Users Page");
-});
+// app.get('/users', checkageRoutemiddleware, (req, resp) => {
+//     resp.send("Users Page");
+// });
 
-app.get('/products', (req, resp) => {
-    resp.send("Products Page");
-});
+// app.get('/products', (req, resp) => {
+//     resp.send("Products Page");
+// });
 
-function checkageRoutemiddleware(req, resp, next) {
-    if (!req.query.age || req.query.age < 18) {
-        resp.send("<h1>You cannot access this page</h1>");
-    } else {
-        next();
+// function checkageRoutemiddleware(req, resp, next) {
+//     if (!req.query.age || req.query.age < 18) {
+//         resp.send("<h1>You cannot access this page</h1>");
+//     } else {
+//         next();
+//     }
+// }
+
+// function checkUrl(req, resp, next) {
+//     console.log(req.url);
+//     next();
+// }
+
+// app.use(checkageRoutemiddleware);
+// app.use(checkUrl);
+
+    // app.listen(3200);
+
+    // //  Built-in Middleware in Express
+
+    import express from 'express';
+    import path from 'path';
+    import morgan from 'morgan';
+
+    const app = express();
+
+    app.get('/',(req,resp)=>{
+
+        const filePath = path.resolve("view/home.html");
+        resp.sendFile(filePath);
+    })
+
+    app.get('/login',(req,resp)=>{
+        resp.send(`
+            <form action="/submit" method="post">
+                <input type="text" name="username" placeholder="Enter your username" />
+                <br />
+                <br/>
+                <input type="text" name="password" placeholder="Enter your password" />
+                <br/>
+                <button type="submit">Login</button>
+            `);
+    })
+
+    app.post('/submit', express.urlencoded({extended:true}),(req,resp)=>{
+        console.log(req.body);
+        resp.send("<h1>Form submitted successfully!</h1>");
+    })
+
+    app.get('/users',(req,resp)=>{
+        resp.send("<h1>Users Page</h1>");
+    })
+
+    app.get('/about',(req,resp)=>{
+        resp.send("<h1>About Page</h1>");
+    })
+
+    app.use(express.urlencoded({extended:false})); // built-in middleware to parse urlencoded data
+
+    app.use(express.json()); // built-in middleware to parse json data
+    app.use(express.static('public')); // built-in middleware to serve static files
+
+
+    app.listen(3200);
+
+    // External Middleware in Express
+    app.use(morgan('dev')); // external middleware to log requests
+
+    // if logs then Get/state/time if not then 404 error page
+    app.use((req, res, next) => {
+        res.status(404).send("<h1>Page Not Found</h1>");
+    });
+
+    // Error Handling Middleware in Express
+
+    app.get('/error', (req, res) => {
+        const error = new Error("Something went wrong!");
+        error.status = 500;
+        throw error;
+        next(error);
+    })
+
+    function errorHandler(err, req, res, next) {
+        console.error(err.stack);
+        res.status(500).sendfile(404);
     }
-}
 
-function checkUrl(req, resp, next) {
-    console.log(req.url);
-    next();
-}
+    app.use(errorHandler);
 
-app.use(checkageRoutemiddleware);
-app.use(checkUrl);
-
-app.listen(3200);
