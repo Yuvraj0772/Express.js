@@ -208,72 +208,99 @@
 
     // //  Built-in Middleware in Express
 
+    // import express from 'express';
+    // import path from 'path';
+    // import morgan from 'morgan';
+
+    // const app = express();
+
+    // app.get('/',(req,resp)=>{
+
+    //     const filePath = path.resolve("view/home.html");
+    //     resp.sendFile(filePath);
+    // })
+
+    // app.get('/login',(req,resp)=>{
+    //     resp.send(`
+    //         <form action="/submit" method="post">
+    //             <input type="text" name="username" placeholder="Enter your username" />
+    //             <br />
+    //             <br/>
+    //             <input type="text" name="password" placeholder="Enter your password" />
+    //             <br/>
+    //             <button type="submit">Login</button>
+    //         `);
+    // })
+
+    // app.post('/submit', express.urlencoded({extended:true}),(req,resp)=>{
+    //     console.log(req.body);
+    //     resp.send("<h1>Form submitted successfully!</h1>");
+    // })
+
+    // app.get('/users',(req,resp)=>{
+    //     resp.send("<h1>Users Page</h1>");
+    // })
+
+    // app.get('/about',(req,resp)=>{
+    //     resp.send("<h1>About Page</h1>");
+    // })
+
+    // app.use(express.urlencoded({extended:false})); // built-in middleware to parse urlencoded data
+
+    // app.use(express.json()); // built-in middleware to parse json data
+    // app.use(express.static('public')); // built-in middleware to serve static files
+
+
+    // app.listen(3200);
+
+    // // External Middleware in Express
+    // app.use(morgan('dev')); // external middleware to log requests
+
+    // // if logs then Get/state/time if not then 404 error page
+    // app.use((req, res, next) => {
+    //     res.status(404).send("<h1>Page Not Found</h1>");
+    // });
+
+    // // Error Handling Middleware in Express
+
+    // app.get('/error', (req, res) => {
+    //     const error = new Error("Something went wrong!");
+    //     error.status = 500;
+    //     throw error;
+    //     next(error);
+    // })
+
+    // function errorHandler(err, req, res, next) {
+    //     console.error(err.stack);
+    //     res.status(500).sendfile(404);
+    // }
+
+    // app.use(errorHandler);
+
+    //  Template Engine - it is used to render dynamic content on the server side and send it to the client. It allows you to create HTML pages with dynamic data.
+    //  ejs,pug,handlebars are some of the popular template engines in express
+
     import express from 'express';
-    import path from 'path';
-    import morgan from 'morgan';
 
     const app = express();
+    app.set('view engine', 'ejs'); // set the template engine to ejs
 
-    app.get('/',(req,resp)=>{
+    app.get('/', (req, res) => {
+        res.render('home', { name : 'Joe Root ', ytchannel : 'Welcome to my yt channel !' });
+    });
 
-        const filePath = path.resolve("view/home.html");
-        resp.sendFile(filePath);
-    })
+    app.get('/addUser', (req, res) => {
+        res.render('addUser');
+    });
 
-    app.get('/login',(req,resp)=>{
-        resp.send(`
-            <form action="/submit" method="post">
-                <input type="text" name="username" placeholder="Enter your username" />
-                <br />
-                <br/>
-                <input type="text" name="password" placeholder="Enter your password" />
-                <br/>
-                <button type="submit">Login</button>
-            `);
-    })
-
-    app.post('/submit', express.urlencoded({extended:true}),(req,resp)=>{
-        console.log(req.body);
-        resp.send("<h1>Form submitted successfully!</h1>");
-    })
-
-    app.get('/users',(req,resp)=>{
-        resp.send("<h1>Users Page</h1>");
-    })
-
-    app.get('/about',(req,resp)=>{
-        resp.send("<h1>About Page</h1>");
-    })
-
-    app.use(express.urlencoded({extended:false})); // built-in middleware to parse urlencoded data
-
-    app.use(express.json()); // built-in middleware to parse json data
-    app.use(express.static('public')); // built-in middleware to serve static files
+    app.post('/submitUser', (req, res) => {
+        const { name, email } = req.body;
+        // Here, you can handle the submitted user data (e.g., save it to a database)
+        res.send(`User ${name} with email ${email} and age ${age} has been submitted successfully!`);
+    });
 
 
     app.listen(3200);
 
-    // External Middleware in Express
-    app.use(morgan('dev')); // external middleware to log requests
 
-    // if logs then Get/state/time if not then 404 error page
-    app.use((req, res, next) => {
-        res.status(404).send("<h1>Page Not Found</h1>");
-    });
-
-    // Error Handling Middleware in Express
-
-    app.get('/error', (req, res) => {
-        const error = new Error("Something went wrong!");
-        error.status = 500;
-        throw error;
-        next(error);
-    })
-
-    function errorHandler(err, req, res, next) {
-        console.error(err.stack);
-        res.status(500).sendfile(404);
-    }
-
-    app.use(errorHandler);
 
