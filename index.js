@@ -280,27 +280,58 @@
     //  Template Engine - it is used to render dynamic content on the server side and send it to the client. It allows you to create HTML pages with dynamic data.
     //  ejs,pug,handlebars are some of the popular template engines in express
 
-    import express from 'express';
+// import express from 'express';
 
-    const app = express();
-    app.set('view engine', 'ejs'); // set the template engine to ejs
+// const app = express();
 
-    app.get('/', (req, res) => {
-        res.render('home', { name : 'Joe Root ', ytchannel : 'Welcome to my yt channel !' });
-    });
+// app.set('view engine', 'ejs');
 
-    app.get('/addUser', (req, res) => {
-        res.render('addUser');
-    });
+// // Parse HTML form data
+// app.use(express.urlencoded({ extended: true }));
 
-    app.post('/submitUser', (req, res) => {
-        const { name, email } = req.body;
-        // Here, you can handle the submitted user data (e.g., save it to a database)
-        res.send(`User ${name} with email ${email} and age ${age} has been submitted successfully!`);
-    });
+// app.get('/', (req, res) => {
+//     res.render('home', {
+//         name: 'Joe Root',
+//         ytchannel: 'Welcome to my yt channel!'
+//     });
+// });
 
+// app.get('/addUser', (req, res) => {
+//     res.render('addUser');
+// });
 
-    app.listen(3200);
+// app.post('/submitUser', (req, res) => {
 
+//     const { name, email, age } = req.body;
 
+//     res.send(
+//         `User ${name} with email ${email} and age ${age} has been submitted successfully!`
+//     );
+// });
+
+// app.listen(3200, () => {
+//     console.log('Server running on port 3200');
+// });
+
+import express from 'express';
+
+const app = express();
+
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+});
+
+app.get('/users', (req, res) => {
+    const isLogin =true; // Replace with your actual login check logic
+    const users = [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' }
+    ];
+    res.json(users);
+    res.render('users', { isLogin, users });
+});
+
+app.listen(3200);
 
