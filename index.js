@@ -335,3 +335,6 @@ app.get('/users', (req, res) => {
 
 app.listen(3200);
 
+// MVC (Model-View-Controller) is a software architectural pattern that separates an application into three main components: the Model, the View, and the Controller. This separation helps in organizing code, making it more maintainable and scalable.
+
+
