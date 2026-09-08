@@ -313,28 +313,40 @@
 //     console.log('Server running on port 3200');
 // });
 
-import express from 'express';
+// import express from 'express';
+
+// const app = express();
+
+// app.set('view engine', 'ejs');
+
+// app.get('/', (req, res) => {
+//     res.send('Hello, World!');
+// });
+
+// app.get('/users', (req, res) => {
+//     const isLogin =true; // Replace with your actual login check logic
+//     const users = [
+//         { id: 1, name: 'John Doe' },
+//         { id: 2, name: 'Jane Smith' }
+//     ];
+//     res.json(users);
+//     res.render('users', { isLogin, users });
+// });
+
+// app.listen(3200);
+
+// // MVC (Model-View-Controller) is a software architectural pattern that separates an application into three main components: the Model, the View, and the Controller. This separation helps in organizing code, making it more maintainable and scalable.
+
+import express from 'express'
+import { handleUser } from './controller/userController';
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set('view engine','ejs')
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+app.get('/users',handleUser,(req,resp) =>{
+    resp.render('user');
+})
 
-app.get('/users', (req, res) => {
-    const isLogin =true; // Replace with your actual login check logic
-    const users = [
-        { id: 1, name: 'John Doe' },
-        { id: 2, name: 'Jane Smith' }
-    ];
-    res.json(users);
-    res.render('users', { isLogin, users });
-});
-
-app.listen(3200);
-
-// MVC (Model-View-Controller) is a software architectural pattern that separates an application into three main components: the Model, the View, and the Controller. This separation helps in organizing code, making it more maintainable and scalable.
 
 
