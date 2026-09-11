@@ -337,14 +337,39 @@
 
 // // MVC (Model-View-Controller) is a software architectural pattern that separates an application into three main components: the Model, the View, and the Controller. This separation helps in organizing code, making it more maintainable and scalable.
 
+// import express from 'express'
+// import { handleUser } from './controller/userController.js';
+
+// const app = express();
+
+// app.set('view engine','ejs')
+
+// app.get('/users',  handleUser);
+
+// app.listen(3200);
+
+
+// Dyanmic Routes
 import express from 'express'
-import { handleUser } from './controller/userController.js';
 
 const app = express();
 
-app.set('view engine','ejs')
+app.get('/',(req,resp) =>{
+    const users = ['anil','sam','roy','peter'];
+    let data = '<ul>';
 
-app.get('/users',  handleUser);
+    for(let i=0; i<users.length; i++){
+        data += `<li><a href='/user/${users[i]}'>${users[i]}</a></li>`;
+    }
+
+    data += '</ul>'
+    resp.send(data);
+})
+
+app.get("/user/:name",(req,resp) =>{
+    const userName = req.params.name;
+    resp.send(`This is a profile of ${userName}`);
+})
 
 app.listen(3200);
 
