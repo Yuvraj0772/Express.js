@@ -350,28 +350,52 @@
 
 
 // Dyanmic Routes
-import express from 'express'
+// import express from 'express'
 
+// const app = express();
+
+// app.get('/',(req,resp) =>{
+//     const users = ['anil','sam','roy','peter'];
+//     let data = '<ul>';
+
+//     for(let i=0; i<users.length; i++){
+//         data += `<li><a href='/user/${users[i]}'>${users[i]}</a></li>`;
+//     }
+
+//     data += '</ul>'
+//     resp.send(data);
+// })
+
+// app.get("/user/:name",(req,resp) =>{
+//     const userName = req.params.name;
+//     resp.send(`This is a profile of ${userName}`);
+// })
+
+// app.listen(3200);
+
+// API Example With Dyamic Routes
+
+import  express from 'express'
+import userData from './users.json' with {type:'json'}
 const app = express();
 
 app.get('/',(req,resp) =>{
-    const users = ['anil','sam','roy','peter'];
-    let data = '<ul>';
-
-    for(let i=0; i<users.length; i++){
-        data += `<li><a href='/user/${users[i]}'>${users[i]}</a></li>`;
-    }
-
-    data += '</ul>'
-    resp.send(data);
+    console.log(userData);
+    resp.send(userData);
 })
 
-app.get("/user/:name",(req,resp) =>{
-    const userName = req.params.name;
-    resp.send(`This is a profile of ${userName}`);
+app.get('/user/:id',(req,resp) =>{
+    const id = req.params.id
+    let filteredData = userData.filter((user) => user.id == id)
+    resp.send(filteredData);
+})
+
+// create same for name 
+app.get('/user/:name',(req,resp) =>{
+    const name = req.params.name
+    let filteredData = userData.filter((user) => user.name.toLowerCase() == id.toLowerCase())
+    resp.send(filteredData);
 })
 
 app.listen(3200);
-
-
 
